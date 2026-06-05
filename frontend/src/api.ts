@@ -72,4 +72,30 @@ export const api = {
       await fetch(`${BASE}/api/properties/${id}`, { method: "DELETE" }),
     );
   },
+
+  async parseLink(url: string): Promise<ParsedListing> {
+    return handle(
+      await fetch(`${BASE}/api/properties/parse-link`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      }),
+    );
+  },
+};
+
+export type ParsedListing = {
+  type: "buy" | "rent";
+  title: string;
+  address: string;
+  price: number | null;
+  price_period: "total" | "month";
+  rooms: string;
+  size: string;
+  broker_name: string;
+  broker_phone: string;
+  broker_email: string;
+  photos: string[];
+  listing_url: string;
+  source: string;
 };

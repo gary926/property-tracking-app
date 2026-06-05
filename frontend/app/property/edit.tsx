@@ -9,6 +9,7 @@ import {
   Linking,
   Platform,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { Image } from "expo-image";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -72,6 +73,8 @@ export default function EditProperty() {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("");
+  const [parsing, setParsing] = useState(false);
 
   useEffect(() => {
     if (!isEdit) return;
@@ -180,6 +183,51 @@ export default function EditProperty() {
   const removePhoto = (idx: number) =>
     set("photos", form.photos.filter((_, i) => i !== idx));
 
+  // ---- Auto-fill from listing link ----
+  const autofill = async () => {
+    const url = linkUrl.trim();
+    if (!url) {
+      Alert.alert("Paste a link", "Paste a property listing URL first.");
+      return;
+    }
+    setParsing(true);
+    try {
+      const d = await api.parseLink(url);
+      setForm((f) => ({
+        ...f,
+        type: d.type || f.type,
+        title: d.title || f.title,
+        address: d.address || f.address,
+        price: d.price != null ? String(d.price) : f.price,
+        price_period: d.price_period || f.price_period,
+        rooms: d.rooms || f.rooms,
+        size: d.size || f.size,
+        broker_name: d.broker_name || f.broker_name,
+        broker_phone: d.broker_phone || f.broker_phone,
+        broker_email: d.broker_email || f.broker_email,
+        listing_url: d.listing_url || url,
+        // merge fetched photos in front of any already added
+        photos: [...d.photos, ...f.photos],
+      }));
+      if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      const filled = !!(d.title || d.price || d.address);
+      if (!filled) {
+        Alert.alert(
+          "Limited details",
+          "We couldn't read much from that link, but added what we found. You can fill the rest manually.",
+        );
+      }
+    } catch (e) {
+      console.warn("autofill failed", e);
+      Alert.alert(
+        "Couldn't read that link",
+        "The site may block automated reading. Try another link or enter the details manually.",
+      );
+    } finally {
+      setParsing(false);
+    }
+  };
+
   // ---- Save ----
   const save = async () => {
     if (!form.title.trim() && !form.address.trim()) {
@@ -242,6 +290,43 @@ export default function EditProperty() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
+        {/* Import from link */}
+        <View style={styles.importCard}>
+          <View style={styles.importHeader}>
+            <Ionicons name="sparkles" size={16} color={colors.blue} />
+            <Text style={styles.importTitle}>Import from a listing link</Text>
+          </View>
+          <Text style={styles.importSub}>
+            Paste a link (e.g. Property Finder) and we'll fill in the details for you.
+          </Text>
+          <View style={styles.importRow}>
+            <TextInput
+              testID="import-link-input"
+              style={styles.importInput}
+              placeholder="https://www.propertyfinder.ae/..."
+              placeholderTextColor={colors.textPlaceholder}
+              autoCapitalize="none"
+              keyboardType="url"
+              value={linkUrl}
+              onChangeText={setLinkUrl}
+              editable={!parsing}
+            />
+            <TouchableOpacity
+              testID="autofill-button"
+              style={[styles.importBtn, parsing && { opacity: 0.6 }]}
+              activeOpacity={0.85}
+              onPress={autofill}
+              disabled={parsing}
+            >
+              {parsing ? (
+                <ActivityIndicator color="#fff" size="small" />
+              ) : (
+                <Ionicons name="arrow-down" size={20} color="#fff" />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
         {/* Type toggle */}
         <View style={styles.typeToggle}>
           {(["buy", "rent"] as const).map((t) => (
@@ -529,6 +614,35 @@ const styles = StyleSheet.create({
   cancel: { ...font.body, color: colors.blue, width: 54 },
   headerTitle: { ...font.headline, color: colors.textPrimary },
   scroll: { paddingHorizontal: spacing.md, paddingTop: spacing.sm, paddingBottom: 40 },
+  importCard: {
+    backgroundColor: "#EAF2FF",
+    borderRadius: radius.xl,
+    padding: spacing.md,
+    marginBottom: spacing.lg,
+    borderWidth: 0.5,
+    borderColor: "rgba(0,122,255,0.2)",
+  },
+  importHeader: { flexDirection: "row", alignItems: "center", gap: 6 },
+  importTitle: { ...font.subhead, fontWeight: "700", color: colors.textPrimary },
+  importSub: { ...font.footnote, color: colors.textSecondary, marginTop: 4, lineHeight: 18 },
+  importRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: spacing.sm + 4 },
+  importInput: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
+    ...font.subhead,
+    color: colors.textPrimary,
+  },
+  importBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.md,
+    backgroundColor: colors.blue,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   typeToggle: {
     flexDirection: "row",
     backgroundColor: "#E3E3E8",

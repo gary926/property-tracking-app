@@ -20,7 +20,12 @@ Mobile app (Expo / React Native + FastAPI + MongoDB) to track and categorize pro
   - Shared: `src/theme.ts`, `src/api.ts`, `src/components/*`
 
 ## Integrations
-- None (no auth, no third-party APIs). Photos via expo-image-picker stored as base64. Viewing date via @react-native-community/datetimepicker.
+- None requiring keys. **Import-from-link**: backend `/api/properties/parse-link` fetches a listing URL server-side (requests) and parses it:
+  - Property Finder (Dubai) → full structured data via Next.js `__NEXT_DATA__` (price, address, beds/baths, size, broker name/phone/email, photos).
+  - Other sites → best-effort OpenGraph fallback (title, image, price guess).
+  - Sites with bot protection (e.g. Bayut, Dubizzle return 302/Cloudflare) are NOT supported without a headless scraper service.
+- Photos via expo-image-picker stored as base64. Viewing date via @react-native-community/datetimepicker.
+- Currency: AED, formatted manually (consistent on web + native Hermes).
 
 ## Status
 - MVP complete & fully tested (13/13 backend, all frontend flows green — iteration_1).
