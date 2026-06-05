@@ -35,6 +35,12 @@ Mobile app (Expo / React Native + FastAPI + MongoDB) to track and categorize pro
 ## Status
 - MVP complete & fully tested (13/13 backend, all frontend flows green — iteration_1).
 
+## PWA (installable web app)
+- `frontend/public/manifest.json` (standalone, theme #000, 3 icons incl. maskable), `public/sw.js` (network-first nav + cache shell, never caches /api), `public/apple-touch-icon.png` + `public/icons/*`.
+- `web.output` is "single" (SPA), so `+html.tsx` is NOT applied — PWA tags are injected at runtime via `src/utils/pwa.ts` (`setupPWA()` called in `app/_layout.tsx`). iOS reads the live DOM at "Add to Home Screen", so it's installable on iPhone.
+- Verified: manifest link, apple-mobile-web-app-capable/title, apple-touch-icon, theme-color, document title, and SW registration all present in the live DOM.
+- Install: deploy via Publish → open the URL in iPhone Safari → Share → Add to Home Screen.
+
 ## Notes / Future ideas
 - Map view of property locations
 - Reminders for scheduled viewings
