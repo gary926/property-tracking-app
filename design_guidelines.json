@@ -1,0 +1,164 @@
+{
+  "app_context": {
+    "theme": "light_only",
+    "archetype": "Archetype 4 (Swiss & Clean / Apple HIG Variant)",
+    "emotion": "Clarity, Premium, Reliable, Effortless"
+  },
+  "colors": {
+    "backgrounds": {
+      "app": "#F2F2F7",
+      "surface": "#FFFFFF",
+      "surface_elevated": "#FFFFFF",
+      "glass": "rgba(255, 255, 255, 0.75)"
+    },
+    "text": {
+      "primary": "#000000",
+      "secondary": "#3C3C43",
+      "tertiary": "rgba(60, 60, 67, 0.3)"
+    },
+    "accents": {
+      "brand_primary": "#000000",
+      "brand_secondary": "#007AFF",
+      "destructive": "#FF3B30",
+      "success": "#34C759"
+    },
+    "status_pipeline": {
+      "to_view": { "bg": "#F2F2F7", "text": "#8E8E93" },
+      "viewed": { "bg": "#E5F0FF", "text": "#007AFF" },
+      "liked": { "bg": "#FFE5EB", "text": "#FF2D55" },
+      "shortlisted": { "bg": "#E8F8EE", "text": "#34C759" },
+      "rejected": { "bg": "#E5E5EA", "text": "#8E8E93" }
+    },
+    "borders": {
+      "default": "rgba(60, 60, 67, 0.1)"
+    }
+  },
+  "typography": {
+    "font_family": "System",
+    "sizes": {
+      "large_title": { "size": "34px", "weight": "700", "tracking": "-0.04em", "line_height": "41px" },
+      "title1": { "size": "28px", "weight": "700", "tracking": "-0.04em", "line_height": "34px" },
+      "title2": { "size": "22px", "weight": "600", "tracking": "-0.02em", "line_height": "28px" },
+      "headline": { "size": "17px", "weight": "600", "tracking": "-0.01em", "line_height": "22px" },
+      "body": { "size": "17px", "weight": "400", "tracking": "-0.01em", "line_height": "22px" },
+      "subhead": { "size": "15px", "weight": "400", "tracking": "-0.01em", "line_height": "20px" },
+      "footnote": { "size": "13px", "weight": "400", "tracking": "0", "line_height": "18px" },
+      "caption": { "size": "12px", "weight": "500", "tracking": "0", "line_height": "16px" }
+    }
+  },
+  "spacing": {
+    "grid_base": 8,
+    "scale": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "xxl": "40px"
+    },
+    "layout": {
+      "screen_padding": "16px",
+      "card_padding": "16px",
+      "section_gap": "24px"
+    }
+  },
+  "components": {
+    "cards": {
+      "property_list_card": {
+        "background": "#FFFFFF",
+        "border_radius": "16px",
+        "shadow": "0px 2px 8px rgba(0, 0, 0, 0.04)",
+        "layout": "Row based. Left: Square thumbnail (80x80, rounded 8px). Right: Stack (Headline for Price, Subhead for address, small badge for status).",
+        "spacing": "padding 16px, gap 12px"
+      },
+      "comparison_card": {
+        "background": "#FFFFFF",
+        "border_radius": "12px",
+        "border": "1px solid rgba(60, 60, 67, 0.1)",
+        "layout": "Vertical stack. Top: Thumbnail. Middle: Price/Name. Bottom: List of attributes (rooms, size, broker)."
+      }
+    },
+    "buttons": {
+      "primary": {
+        "background": "#000000",
+        "text_color": "#FFFFFF",
+        "border_radius": "12px",
+        "padding": "16px",
+        "font": "headline"
+      },
+      "secondary": {
+        "background": "#F2F2F7",
+        "text_color": "#007AFF",
+        "border_radius": "12px",
+        "padding": "16px",
+        "font": "headline"
+      }
+    },
+    "tab_bar": {
+      "style": "Glassmorphism",
+      "background": "rgba(255, 255, 255, 0.8)",
+      "backdrop_filter": "blur(20px)",
+      "border_top": "0.5px solid rgba(0, 0, 0, 0.1)",
+      "active_tint": "#000000",
+      "inactive_tint": "#999999"
+    },
+    "forms": {
+      "input_field": {
+        "background": "#FFFFFF",
+        "border_radius": "10px",
+        "padding": "14px",
+        "font": "body",
+        "border": "0.5px solid rgba(60, 60, 67, 0.15)",
+        "placeholder_color": "rgba(60, 60, 67, 0.3)"
+      },
+      "picker": {
+        "style": "Native iOS picker or Segmented Control for fast status changing."
+      }
+    },
+    "badges": {
+      "border_radius": "6px",
+      "padding": "4px 8px",
+      "font": "caption"
+    },
+    "comparison_view": {
+      "layout_strategy": "Horizontal scroll view (Carousel) displaying up to 2 items side-by-side on screen. Sticky top row with property image, price, and CTA. Scrollable attribute rows below with clear alternating row backgrounds for scannability.",
+      "attribute_rows": "Address, Rooms/Size, Status, Rating, Broker, View Date."
+    }
+  },
+  "layout_strategies": {
+    "home_screen": "Top Segmented Control (Buy vs Rent). Scrollable list of Property Cards below.",
+    "detail_screen": "Large Hero Image gallery at top. Scrollable content below. Key info (Price, Address) -> Status Pipeline selector -> Broker Info card -> Rating & Notes.",
+    "add_property_screen": "Grouped table view style form (like iOS Settings). Fields grouped logically: Core Details, Media, Broker Info, Status & Notes."
+  },
+  "media_assets": {
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBsdXh1cnklMjBob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4MDY2MjI4Mnww&ixlib=rb-4.1.0&q=85",
+        "description": "Modern house with pool (For Buy section mockups)"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1724582586529-62622e50c0b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBtaW5pbWFsJTIwYXBhcnRtZW50JTIwaW50ZXJpb3J8ZW58MHx8fHwxNzgwNjYyMjgyfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Modern minimal apartment (For Rent section mockups)"
+      },
+      {
+        "url": "https://images.pexels.com/photos/8134846/pexels-photo-8134846.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Contemporary residence exterior (Comparison mockup A)"
+      },
+      {
+        "url": "https://images.pexels.com/photos/7195900/pexels-photo-7195900.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Wooden dining table apartment (Comparison mockup B)"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Use strictly React Native / Expo best practices for styling (StyleSheet or NativeWind if configured).",
+    "Adhere exclusively to the Light Theme values provided. Do not implement dark mode.",
+    "Ensure all interactive elements (buttons, segmented controls, cards) have an active opacity or touch feedback.",
+    "Implement 'data-testid' on all interactive elements. In React Native, use the `testID` prop (e.g., testID='buy-tab-button', testID='add-property-button').",
+    "For the comparison view, implement a horizontal ScrollView or FlatList where exactly 2 properties fit in the viewport width. Use sticky headers if possible, or keep the scroll simple and aligned.",
+    "Status pipeline changes should be effortless. On the detail screen, represent the status as a horizontal, scrollable tracker or a clear segmented control, not just a standard dropdown.",
+    "Do not use generic placeholder image URLs. Use the provided Unsplash/Pexels images as default fallbacks when a user hasn't added a photo yet.",
+    "Ensure input forms match the iOS grouped table view style (white cards on #F2F2F7 background with rounded corners).",
+    "All tab bars and headers must simulate iOS glassmorphism. Use Expo BlurView (`expo-blur`) where appropriate."
+  ]
+}
