@@ -102,8 +102,8 @@ export const STATUS_META: Record<
   rejected: { label: "Rejected", bg: "#E5E5EA", text: "#8E8E93", dot: "#C7C7CC" },
 };
 
-// Default fallback images when a property has no photos yet
+// Default fallback images when a property has no photos yet (sourced from env)
 export const FALLBACK_IMAGES = {
-  buy: "https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBsdXh1cnklMjBob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4MDY2MjI4Mnww&ixlib=rb-4.1.0&q=85",
-  rent: "https://images.unsplash.com/photo-1724582586529-62622e50c0b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBtaW5pbWFsJTIwYXBhcnRtZW50JTIwaW50ZXJpb3J8ZW58MHx8fHwxNzgwNjYyMjgyfDA&ixlib=rb-4.1.0&q=85",
+  buy: process.env.EXPO_PUBLIC_FALLBACK_IMAGE_BUY || "",
+  rent: process.env.EXPO_PUBLIC_FALLBACK_IMAGE_RENT || "",
 };
