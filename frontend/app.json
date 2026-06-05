@@ -9,14 +9,19 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Take photos of properties you visit",
+        "NSPhotoLibraryUsageDescription": "Add property photos from your library"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": ["CAMERA", "READ_MEDIA_IMAGES"]
     },
     "web": {
       "bundler": "metro",
@@ -34,7 +39,8 @@
           "backgroundColor": "#000"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true
