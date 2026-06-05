@@ -8,6 +8,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -30,6 +31,8 @@ export default function PropertiesScreen() {
   const [items, setItems] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showPaste, setShowPaste] = useState(false);
+  const [pasteUrl, setPasteUrl] = useState("");
 
   const load = useCallback(async () => {
     try {
@@ -62,6 +65,15 @@ export default function PropertiesScreen() {
     setLoading(true);
   };
 
+  const goPaste = () => {
+    const url = pasteUrl.trim();
+    if (!url) return;
+    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setShowPaste(false);
+    setPasteUrl("");
+    router.push({ pathname: "/property/edit", params: { prefillUrl: url } });
+  };
+
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: items.length };
     STATUS_ORDER.forEach((s) => (c[s] = 0));
@@ -84,18 +96,68 @@ export default function PropertiesScreen() {
             <Text style={styles.eyebrow}>HOUSE HUNT</Text>
             <Text style={styles.title}>Properties</Text>
           </View>
-          <TouchableOpacity
-            testID="add-property-button"
-            style={styles.addBtn}
-            activeOpacity={0.8}
-            onPress={() => {
-              if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              router.push({ pathname: "/property/edit", params: { type: segment } });
-            }}
-          >
-            <Ionicons name="add" size={26} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.headerActions}>
+            <TouchableOpacity
+              testID="paste-link-button"
+              style={styles.pasteBtn}
+              activeOpacity={0.8}
+              onPress={() => {
+                if (Platform.OS !== "web") Haptics.selectionAsync();
+                setShowPaste((v) => !v);
+              }}
+            >
+              <Ionicons
+                name={showPaste ? "close" : "link"}
+                size={20}
+                color={colors.textPrimary}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              testID="add-property-button"
+              style={styles.addBtn}
+              activeOpacity={0.8}
+              onPress={() => {
+                if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                router.push({ pathname: "/property/edit", params: { type: segment } });
+              }}
+            >
+              <Ionicons name="add" size={26} color="#fff" />
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* Paste-a-link shortcut */}
+        {showPaste && (
+          <View style={styles.pasteCard} testID="paste-card">
+            <Text style={styles.pasteHint}>
+              Paste a listing link — we'll detect Buy/Rent and fill the details.
+            </Text>
+            <View style={styles.pasteRow}>
+              <TextInput
+                testID="paste-link-input"
+                style={styles.pasteInput}
+                placeholder="https://www.propertyfinder.ae/..."
+                placeholderTextColor={colors.textPlaceholder}
+                autoCapitalize="none"
+                keyboardType="url"
+                autoFocus
+                value={pasteUrl}
+                onChangeText={setPasteUrl}
+                onSubmitEditing={goPaste}
+                returnKeyType="go"
+              />
+              <TouchableOpacity
+                testID="paste-go-button"
+                style={styles.pasteGo}
+                activeOpacity={0.85}
+                onPress={goPaste}
+              >
+                <Ionicons name="sparkles" size={16} color="#fff" />
+                <Text style={styles.pasteGoText}>Detect</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
         {/* Segmented control */}
         <View style={styles.segment}>
@@ -235,6 +297,18 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   title: { ...font.largeTitle, color: colors.textPrimary },
+  headerActions: { flexDirection: "row", alignItems: "center", gap: 10 },
+  pasteBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.surface,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 0.5,
+    borderColor: colors.border,
+    ...shadow.card,
+  },
   addBtn: {
     width: 44,
     height: 44,
@@ -244,6 +318,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     ...shadow.float,
   },
+  pasteCard: {
+    backgroundColor: "#EAF2FF",
+    borderRadius: radius.xl,
+    padding: spacing.md,
+    marginTop: spacing.md,
+    borderWidth: 0.5,
+    borderColor: "rgba(0,122,255,0.2)",
+  },
+  pasteHint: { ...font.footnote, color: colors.textSecondary, marginBottom: spacing.sm },
+  pasteRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  pasteInput: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
+    ...font.subhead,
+    color: colors.textPrimary,
+  },
+  pasteGo: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: colors.blue,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    borderRadius: radius.md,
+  },
+  pasteGoText: { ...font.subhead, fontWeight: "700", color: "#fff" },
   segment: {
     flexDirection: "row",
     backgroundColor: "#E3E3E8",

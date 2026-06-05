@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -66,7 +66,11 @@ const emptyForm = (type: "buy" | "rent"): Form => ({
 export default function EditProperty() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { id, type } = useLocalSearchParams<{ id?: string; type?: string }>();
+  const { id, type, prefillUrl } = useLocalSearchParams<{
+    id?: string;
+    type?: string;
+    prefillUrl?: string;
+  }>();
   const isEdit = !!id;
 
   const [form, setForm] = useState<Form>(emptyForm((type as "buy" | "rent") || "buy"));
@@ -184,12 +188,13 @@ export default function EditProperty() {
     set("photos", form.photos.filter((_, i) => i !== idx));
 
   // ---- Auto-fill from listing link ----
-  const autofill = async () => {
-    const url = linkUrl.trim();
+  const autofill = async (overrideUrl?: string) => {
+    const url = (overrideUrl ?? linkUrl).trim();
     if (!url) {
       Alert.alert("Paste a link", "Paste a property listing URL first.");
       return;
     }
+    if (overrideUrl) setLinkUrl(overrideUrl);
     setParsing(true);
     try {
       const d = await api.parseLink(url);
@@ -227,6 +232,17 @@ export default function EditProperty() {
       setParsing(false);
     }
   };
+
+  // Auto-run autofill when launched from the home "paste link" shortcut
+  const prefillRan = useRef(false);
+  useEffect(() => {
+    if (isEdit) return;
+    if (prefillUrl && !prefillRan.current) {
+      prefillRan.current = true;
+      autofill(prefillUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefillUrl, isEdit]);
 
   // ---- Save ----
   const save = async () => {
