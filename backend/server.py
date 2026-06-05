@@ -96,7 +96,14 @@ async def list_properties(type: Optional[str] = None, status: Optional[str] = No
         query["type"] = type
     if status:
         query["status"] = status
-    docs = await db.properties.find(query, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    # List/compare views only render the first photo thumbnail, so slice to 1
+    # photo to keep payloads small (full photos load on the detail endpoint).
+    projection = {"_id": 0, "photos": {"$slice": 1}}
+    docs = (
+        await db.properties.find(query, projection)
+        .sort("created_at", -1)
+        .to_list(200)
+    )
     return [Property(**d) for d in docs]
 
 
