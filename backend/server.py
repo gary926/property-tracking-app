@@ -205,6 +205,103 @@ def _parse_property_finder(data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     }
 
 
+def _extract_listing(page: str, url: str) -> Optional[Dict[str, Any]]:
+    """Parse listing details from page HTML. Returns None if nothing usable."""
+    # 1) Structured Next.js data (Property Finder & similar)
+    m = re.search(
+        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+        page,
+        re.S,
+    )
+    if m:
+        try:
+            data = json.loads(m.group(1))
+            pf = _parse_property_finder(data)
+            if pf and (pf.get("title") or pf.get("price") or pf.get("address")):
+                return pf
+        except json.JSONDecodeError:
+            pass
+
+    # 2) OpenGraph meta tags (works for most listing sites)
+    og_image = _og_meta(page, "image")
+    og_title = _og_meta(page, "title")
+    desc = _og_meta(page, "description")
+    result: Dict[str, Any] = {
+        "type": "buy",
+        "title": og_title,
+        "address": "",
+        "price": None,
+        "price_period": "total",
+        "rooms": "",
+        "size": "",
+        "broker_name": "",
+        "broker_phone": "",
+        "broker_email": "",
+        "photos": [og_image] if og_image else [],
+        "source": "generic",
+    }
+    blob = f"{og_title} {desc}"
+    # Rent vs Buy hint
+    if re.search(r"\b(for rent|to rent|rental|/year|/month|yearly|monthly)\b", blob, re.I):
+        result["type"] = "rent"
+        result["price_period"] = "month"
+    # Best-effort price (e.g. "AED 2,200,000")
+    pm = re.search(r"(?:AED|د\.إ|USD|\$)\s*([\d,]{4,})", blob, re.I)
+    if pm:
+        try:
+            result["price"] = float(pm.group(1).replace(",", ""))
+        except ValueError:
+            pass
+    # Best-effort beds (e.g. "2 Bedroom" / "Studio")
+    bm = re.search(r"(\d+)\s*(?:bed|bedroom|br)\b", blob, re.I)
+    if bm:
+        result["rooms"] = f"{bm.group(1)} bed"
+    elif re.search(r"\bstudio\b", blob, re.I):
+        result["rooms"] = "Studio"
+    sm = re.search(r"([\d,]{2,})\s*(?:sqft|sq\.?\s?ft|sqm|m²|m2)", blob, re.I)
+    if sm:
+        result["size"] = sm.group(0)
+
+    if og_title or result["price"] or og_image:
+        return result
+    return None
+
+
+def _is_meaningful(d: Optional[Dict[str, Any]]) -> bool:
+    return bool(d and (d.get("title") or d.get("price") or d.get("address")))
+
+
+def _fetch_via_scraperapi(url: str, premium: bool = False) -> Optional[str]:
+    """Fetch a URL through ScraperAPI (JS render + proxy). Returns HTML or None.
+
+    `premium=True` requests residential/premium proxies for hard anti-bot sites
+    (Bayut, Dubizzle). Requires a paid ScraperAPI plan; on plans without it the
+    call returns non-200 and we simply fall through.
+    """
+    api_key = os.environ.get("SCRAPER_API_KEY", "").strip()
+    if not api_key:
+        return None
+    # ScraperAPI requires its own params before the target url.
+    params = {
+        "api_key": api_key,
+        "render": "true",
+        "country_code": "ae",
+    }
+    if premium:
+        params["ultra_premium"] = "true"
+    params["url"] = url
+    try:
+        resp = requests.get("https://api.scraperapi.com/", params=params, timeout=70)
+        if resp.status_code == 200:
+            return resp.text
+        logger.warning(
+            f"scraperapi non-200 (premium={premium}): {resp.status_code} {resp.text[:160]}"
+        )
+    except Exception as e:
+        logger.warning(f"scraperapi fetch failed (premium={premium}): {e}")
+    return None
+
+
 @api_router.post("/properties/parse-link")
 async def parse_link(payload: ParseLinkRequest):
     url = payload.url.strip()
@@ -218,35 +315,46 @@ async def parse_link(payload: ParseLinkRequest):
         ),
         "Accept-Language": "en-US,en;q=0.9",
     }
+
+    # 1) Fast direct fetch
+    result = None
+    direct_ok = False
     try:
         resp = requests.get(url, headers=headers, timeout=20)
-        resp.raise_for_status()
+        if resp.status_code == 200 and resp.url and "/login" not in resp.url:
+            direct_ok = True
+            result = _extract_listing(resp.text, url)
     except Exception as e:
-        logger.warning(f"parse-link fetch failed: {e}")
-        raise HTTPException(status_code=422, detail="Could not reach that link. Please check the URL.")
+        logger.warning(f"parse-link direct fetch failed: {e}")
 
-    page = resp.text
+    # 2) Fallback to ScraperAPI when direct is blocked or yields nothing useful
+    if not _is_meaningful(result):
+        scraped = _fetch_via_scraperapi(url)
+        if scraped:
+            scraped_result = _extract_listing(scraped, url)
+            if _is_meaningful(scraped_result):
+                result = scraped_result
 
-    # 1) Try structured Next.js data (Property Finder & similar)
-    result = None
-    m = re.search(
-        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
-        page,
-        re.S,
-    )
-    if m:
-        try:
-            data = json.loads(m.group(1))
-            result = _parse_property_finder(data)
-        except json.JSONDecodeError:
-            result = None
+    # 2b) Still nothing? Retry with premium/residential proxies for hard
+    #     anti-bot sites (Bayut, Dubizzle). No-op on plans without premium.
+    if not _is_meaningful(result):
+        scraped = _fetch_via_scraperapi(url, premium=True)
+        if scraped:
+            scraped_result = _extract_listing(scraped, url)
+            if _is_meaningful(scraped_result):
+                result = scraped_result
 
-    # 2) Fallback to OpenGraph meta tags (works for most listing sites)
-    if not result:
-        og_image = _og_meta(page, "image")
+    # 3) If we still have nothing and never reached the page at all, error out
+    if result is None:
+        if not direct_ok:
+            raise HTTPException(
+                status_code=422,
+                detail="Could not read that link. The site may block automated reading, or the URL is invalid.",
+            )
+        # Reached page but found nothing parseable — return empty shell
         result = {
             "type": "buy",
-            "title": _og_meta(page, "title"),
+            "title": "",
             "address": "",
             "price": None,
             "price_period": "total",
@@ -255,20 +363,11 @@ async def parse_link(payload: ParseLinkRequest):
             "broker_name": "",
             "broker_phone": "",
             "broker_email": "",
-            "photos": [og_image] if og_image else [],
+            "photos": [],
             "source": "generic",
         }
-        # Best-effort price from description/title (e.g. "AED 2,200,000")
-        desc = _og_meta(page, "description")
-        pm = re.search(r"(?:AED|د\.إ)\s*([\d,]{4,})", f"{result['title']} {desc}", re.I)
-        if pm:
-            try:
-                result["price"] = float(pm.group(1).replace(",", ""))
-            except ValueError:
-                pass
 
     result["listing_url"] = url
-    # Clean empty strings -> keep keys for frontend convenience
     return result
 
 

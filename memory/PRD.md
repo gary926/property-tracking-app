@@ -20,11 +20,16 @@ Mobile app (Expo / React Native + FastAPI + MongoDB) to track and categorize pro
   - Shared: `src/theme.ts`, `src/api.ts`, `src/components/*`
 
 ## Integrations
-- None requiring keys. **Import-from-link**: backend `/api/properties/parse-link` fetches a listing URL server-side (requests) and parses it:
-  - Property Finder (Dubai) → full structured data via Next.js `__NEXT_DATA__` (price, address, beds/baths, size, broker name/phone/email, photos).
-  - Other sites → best-effort OpenGraph fallback (title, image, price guess).
-  - Sites with bot protection (e.g. Bayut, Dubizzle return 302/Cloudflare) are NOT supported without a headless scraper service.
-- Photos via expo-image-picker stored as base64. Viewing date via @react-native-community/datetimepicker.
+- **ScraperAPI** (key in backend `.env` as `SCRAPER_API_KEY`) — used as a fallback in `/api/properties/parse-link`.
+- **Import-from-link** flow (`/api/properties/parse-link`):
+  1. Fast direct fetch (requests) → parses Property Finder `__NEXT_DATA__` (full structured data) or OpenGraph for generic sites.
+  2. If blocked/empty → ScraperAPI with `render=true`.
+  3. If still empty → ScraperAPI with `ultra_premium=true` (residential proxies) for hard anti-bot sites (Bayut, Dubizzle).
+  - NOTE: Bayut/Dubizzle serve CAPTCHA to datacenter proxies and need ScraperAPI **premium/residential proxies**, which require a PAID ScraperAPI plan. On the free trial plan the premium call returns 403 and the form shows "limited details". Code auto-works once the plan is upgraded — no changes needed.
+- **Frontend entry points for import:**
+  - Home screen "paste link" shortcut (link icon in header) → opens prefilled form via `prefillUrl` param, auto-runs parse.
+  - Add/Edit form "Import from a listing link" card.
+- Photos via expo-image-picker stored as base64; remote listing photos stored as URLs. Viewing date via @react-native-community/datetimepicker.
 - Currency: AED, formatted manually (consistent on web + native Hermes).
 
 ## Status
