@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: colors.brand,
+    backgroundColor: colors.brandDeep,
     alignItems: "center",
     justifyContent: "center",
     ...shadow.float,
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   pasteGoText: { ...font.subhead, fontWeight: "700", color: "#fff" },
   segment: {
     flexDirection: "row",
-    backgroundColor: "#E3E3E8",
+    backgroundColor: "#E2E8F0",
     borderRadius: radius.md,
     padding: 3,
     marginTop: spacing.md,

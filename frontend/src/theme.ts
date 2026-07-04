@@ -1,34 +1,46 @@
-// Apple HIG inspired light theme tokens (see design_guidelines.json)
+// Blue-only, modern & classy design system (Apple HIG inspired)
+// See /app/design_guidelines.json — strictly a blue monochromatic palette.
 
 export const colors = {
-  appBg: "#F2F2F7",
+  appBg: "#F4F7FB",
   surface: "#FFFFFF",
-  glass: "rgba(255, 255, 255, 0.8)",
+  surfaceHighlight: "#F8FAFC",
+  glass: "rgba(255, 255, 255, 0.85)",
 
-  textPrimary: "#000000",
-  textSecondary: "#3C3C43",
-  textTertiary: "#8E8E93",
-  textPlaceholder: "rgba(60, 60, 67, 0.3)",
+  textPrimary: "#0A1423",
+  textSecondary: "#5B6C82",
+  textTertiary: "#8A9CB0",
+  textPlaceholder: "rgba(138, 156, 176, 0.7)",
 
-  brand: "#000000",
-  blue: "#007AFF",
-  pink: "#FF2D55",
-  red: "#FF3B30",
-  green: "#34C759",
-  orange: "#FF9500",
-  yellow: "#FFCC00",
+  // Blue accent scale
+  brand: "#0F52BA", // primary royal blue
+  brandHover: "#0B3D8A",
+  brandDeep: "#041B3B", // deep premium navy
+  accentSubtle: "#E8F0FE", // pale blue tint fill
+  azure: "#2F6FE0", // brighter blue for highlights/stars
+  priceColor: "#0F52BA",
 
-  border: "rgba(60, 60, 67, 0.12)",
-  separator: "rgba(60, 60, 67, 0.18)",
+  // Aliases kept for existing references — all repointed to blue hues
+  blue: "#0F52BA",
+  orange: "#2F6FE0",
+  red: "#0F52BA",
+  green: "#0F52BA",
+  pink: "#0F52BA",
+  yellow: "#2F6FE0",
 
-  tabInactive: "#999999",
+  border: "#E2E8F0",
+  borderMedium: "#CBD5E1",
+  separator: "#E2E8F0",
+
+  tabInactive: "#8A9CB0",
 };
 
 export const radius = {
-  sm: 6,
-  md: 10,
-  lg: 12,
-  xl: 16,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  xxl: 26,
   pill: 999,
 };
 
@@ -42,30 +54,37 @@ export const spacing = {
 };
 
 export const font = {
-  largeTitle: { fontSize: 34, fontWeight: "700" as const, letterSpacing: -0.8 },
-  title1: { fontSize: 28, fontWeight: "700" as const, letterSpacing: -0.6 },
-  title2: { fontSize: 22, fontWeight: "700" as const, letterSpacing: -0.4 },
-  title3: { fontSize: 20, fontWeight: "600" as const, letterSpacing: -0.3 },
-  headline: { fontSize: 17, fontWeight: "600" as const, letterSpacing: -0.2 },
+  largeTitle: { fontSize: 34, fontWeight: "700" as const, letterSpacing: -1.0 },
+  title1: { fontSize: 28, fontWeight: "700" as const, letterSpacing: -0.7 },
+  title2: { fontSize: 24, fontWeight: "700" as const, letterSpacing: -0.5 },
+  title3: { fontSize: 20, fontWeight: "600" as const, letterSpacing: -0.4 },
+  headline: { fontSize: 17, fontWeight: "600" as const, letterSpacing: -0.3 },
   body: { fontSize: 17, fontWeight: "400" as const, letterSpacing: -0.2 },
   callout: { fontSize: 16, fontWeight: "400" as const, letterSpacing: -0.2 },
   subhead: { fontSize: 15, fontWeight: "400" as const, letterSpacing: -0.1 },
   footnote: { fontSize: 13, fontWeight: "400" as const },
-  caption: { fontSize: 12, fontWeight: "500" as const },
+  caption: { fontSize: 12, fontWeight: "600" as const, letterSpacing: 0.3 },
 };
 
 export const shadow = {
   card: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
+    shadowColor: "#0A1423",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 16,
     elevation: 2,
   },
   float: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
+    shadowColor: "#0F52BA",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.28,
+    shadowRadius: 20,
+    elevation: 8,
+  },
+  deep: {
+    shadowColor: "#041B3B",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
     shadowRadius: 16,
     elevation: 6,
   },
@@ -86,20 +105,59 @@ export const STATUS_ORDER: StatusKey[] = [
   "rejected",
 ];
 
+// Blue-only status system, differentiated by fill style + darkness.
+// `accent` = representative solid blue used for active pipeline chips.
 export const STATUS_META: Record<
   StatusKey,
-  { label: string; bg: string; text: string; dot: string }
+  {
+    label: string;
+    bg: string;
+    text: string;
+    dot: string;
+    border: string;
+    accent: string;
+  }
 > = {
-  to_view: { label: "To View", bg: "#F2F2F7", text: "#8E8E93", dot: "#8E8E93" },
-  viewed: { label: "Viewed", bg: "#E5F0FF", text: "#007AFF", dot: "#007AFF" },
-  liked: { label: "Liked", bg: "#FFE5EB", text: "#FF2D55", dot: "#FF2D55" },
+  to_view: {
+    label: "To View",
+    bg: "#FFFFFF",
+    text: "#0F52BA",
+    dot: "#0F52BA",
+    border: "#0F52BA",
+    accent: "#0F52BA",
+  },
+  viewed: {
+    label: "Viewed",
+    bg: "#E8F0FE",
+    text: "#0F52BA",
+    dot: "#0F52BA",
+    border: "transparent",
+    accent: "#0F52BA",
+  },
+  liked: {
+    label: "Liked",
+    bg: "#0F52BA",
+    text: "#FFFFFF",
+    dot: "#FFFFFF",
+    border: "transparent",
+    accent: "#0F52BA",
+  },
   shortlisted: {
     label: "Shortlisted",
-    bg: "#E8F8EE",
-    text: "#34C759",
-    dot: "#34C759",
+    bg: "#041B3B",
+    text: "#FFFFFF",
+    dot: "#7FA8E8",
+    border: "transparent",
+    accent: "#041B3B",
   },
-  rejected: { label: "Rejected", bg: "#E5E5EA", text: "#8E8E93", dot: "#C7C7CC" },
+  rejected: {
+    label: "Rejected",
+    bg: "#F4F7FB",
+    text: "#8A9CB0",
+    dot: "#CBD5E1",
+    border: "#E2E8F0",
+    accent: "#8A9CB0",
+  },
 };
 
 // Default fallback images when a property has no photos yet (sourced from env)

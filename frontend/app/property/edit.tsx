@@ -514,7 +514,7 @@ export default function EditProperty() {
                   testID={`form-status-${s}`}
                   style={[
                     styles.statusChip,
-                    { backgroundColor: active ? meta.text : colors.surface },
+                    { backgroundColor: active ? meta.accent : colors.surface },
                     !active && styles.statusChipInactive,
                   ]}
                   onPress={() => set("status", s)}
@@ -539,8 +539,8 @@ export default function EditProperty() {
             activeOpacity={0.7}
             onPress={() => setShowPicker(true)}
           >
-            <View style={[styles.iconCircle, { backgroundColor: "#FFF4E5" }]}>
-              <Ionicons name="calendar-outline" size={20} color={colors.orange} />
+            <View style={[styles.iconCircle, { backgroundColor: "#E8F0FE" }]}>
+              <Ionicons name="calendar-outline" size={20} color={colors.brand} />
             </View>
             <View style={{ flex: 1, marginLeft: 12 }}>
               <Text style={styles.dateTitle}>Viewing date</Text>

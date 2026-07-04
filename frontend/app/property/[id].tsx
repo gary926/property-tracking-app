@@ -227,7 +227,7 @@ export default function PropertyDetail() {
                   onPress={() => changeStatus(s)}
                   style={[
                     styles.pipeChip,
-                    { backgroundColor: active ? meta.text : colors.surface },
+                    { backgroundColor: active ? meta.accent : colors.surface },
                     !active && styles.pipeChipInactive,
                   ]}
                 >
@@ -282,8 +282,8 @@ export default function PropertyDetail() {
           {/* Viewing date */}
           {!!property.viewing_date && (
             <View style={styles.linkCard}>
-              <View style={[styles.iconCircle, { backgroundColor: "#FFF4E5" }]}>
-                <Ionicons name="calendar-outline" size={20} color={colors.orange} />
+              <View style={[styles.iconCircle, { backgroundColor: "#E8F0FE" }]}>
+                <Ionicons name="calendar-outline" size={20} color={colors.brand} />
               </View>
               <View style={styles.linkBody}>
                 <Text style={styles.linkTitle}>Viewing</Text>

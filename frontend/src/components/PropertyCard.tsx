@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  price: { ...font.headline, color: colors.textPrimary, flex: 1 },
+  price: { ...font.headline, color: colors.priceColor, flex: 1 },
   ratingRow: { flexDirection: "row", alignItems: "center", marginLeft: 6 },
   ratingText: {
     ...font.caption,

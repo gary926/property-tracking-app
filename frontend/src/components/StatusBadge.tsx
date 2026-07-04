@@ -10,12 +10,14 @@ export default function StatusBadge({
   small?: boolean;
 }) {
   const meta = STATUS_META[status];
+  const hasBorder = meta.border && meta.border !== "transparent";
   return (
     <View
       testID={`status-badge-${status}`}
       style={[
         styles.badge,
         { backgroundColor: meta.bg },
+        hasBorder && { borderWidth: 1, borderColor: meta.border },
         small && styles.badgeSmall,
       ]}
     >

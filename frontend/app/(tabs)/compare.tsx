@@ -115,8 +115,8 @@ export default function CompareScreen() {
           <Text style={styles.emptyTitle}>Shortlist to compare</Text>
           <Text style={styles.emptySub}>
             Mark at least 2 {segment === "buy" ? "homes" : "rentals"} as{" "}
-            <Text style={{ color: STATUS_META.shortlisted.text, fontWeight: "600" }}>Shortlisted</Text> or{" "}
-            <Text style={{ color: STATUS_META.liked.text, fontWeight: "600" }}>Liked</Text> to see them side by side.
+            <Text style={{ color: STATUS_META.shortlisted.accent, fontWeight: "600" }}>Shortlisted</Text> or{" "}
+            <Text style={{ color: STATUS_META.liked.accent, fontWeight: "600" }}>Liked</Text> to see them side by side.
           </Text>
         </View>
       ) : (
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   title: { ...font.largeTitle, color: colors.textPrimary },
   segment: {
     flexDirection: "row",
-    backgroundColor: "#E3E3E8",
+    backgroundColor: "#E2E8F0",
     borderRadius: radius.md,
     padding: 3,
     marginTop: spacing.md,
