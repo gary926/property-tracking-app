@@ -13,7 +13,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Take photos of properties you visit",
         "NSPhotoLibraryUsageDescription": "Add property photos from your library"
-      }
+      },
+      "bundleIdentifier": "com.emergent.listinghub.zxb8pn"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +22,11 @@
         "backgroundColor": "#000"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": ["CAMERA", "READ_MEDIA_IMAGES"]
+      "permissions": [
+        "CAMERA",
+        "READ_MEDIA_IMAGES"
+      ],
+      "package": "com.emergent.listinghub.zxb8pn"
     },
     "web": {
       "bundler": "metro",

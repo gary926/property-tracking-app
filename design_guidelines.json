@@ -1,164 +1,172 @@
 {
-  "app_context": {
-    "theme": "light_only",
-    "archetype": "Archetype 4 (Swiss & Clean / Apple HIG Variant)",
-    "emotion": "Clarity, Premium, Reliable, Effortless"
+  "theme_and_archetype": {
+    "domain": "Real Estate / Property Tracking (Dubai)",
+    "theme": "Light",
+    "archetype": "5 (Luxury) & Apple HIG Inspired",
+    "mood": "Modern, Classy, Expensive, Refined",
+    "color_constraint": "Strictly Blue Monochromatic System ONLY"
   },
   "colors": {
-    "backgrounds": {
-      "app": "#F2F2F7",
+    "background": {
+      "app": "#F4F7FB",
       "surface": "#FFFFFF",
-      "surface_elevated": "#FFFFFF",
-      "glass": "rgba(255, 255, 255, 0.75)"
+      "surface_highlight": "#F8FAFC",
+      "glass": "rgba(255, 255, 255, 0.85)"
     },
     "text": {
-      "primary": "#000000",
-      "secondary": "#3C3C43",
-      "tertiary": "rgba(60, 60, 67, 0.3)"
+      "primary": "#0A1423",
+      "secondary": "#5B6C82",
+      "tertiary": "#8A9CB0",
+      "inverse": "#FFFFFF",
+      "price_aed": "#0F52BA"
     },
-    "accents": {
-      "brand_primary": "#000000",
-      "brand_secondary": "#007AFF",
-      "destructive": "#FF3B30",
-      "success": "#34C759"
+    "border": {
+      "subtle": "#E2E8F0",
+      "medium": "#CBD5E1",
+      "focus": "#0F52BA"
     },
-    "status_pipeline": {
-      "to_view": { "bg": "#F2F2F7", "text": "#8E8E93" },
-      "viewed": { "bg": "#E5F0FF", "text": "#007AFF" },
-      "liked": { "bg": "#FFE5EB", "text": "#FF2D55" },
-      "shortlisted": { "bg": "#E8F8EE", "text": "#34C759" },
-      "rejected": { "bg": "#E5E5EA", "text": "#8E8E93" }
+    "accent": {
+      "primary": "#0F52BA",
+      "primary_hover": "#0B3D8A",
+      "primary_active": "#082B61",
+      "subtle": "#E8F0FE",
+      "deep": "#041B3B"
     },
-    "borders": {
-      "default": "rgba(60, 60, 67, 0.1)"
+    "status_system": {
+      "to_view": {
+        "description": "Lowest intent, outlines only",
+        "type": "outline",
+        "background": "#FFFFFF",
+        "border": "#0F52BA",
+        "text": "#0F52BA",
+        "icon": "circle"
+      },
+      "viewed": {
+        "description": "Action taken, soft fill",
+        "type": "soft",
+        "background": "#E8F0FE",
+        "border": "transparent",
+        "text": "#0F52BA",
+        "icon": "eye"
+      },
+      "liked": {
+        "description": "High intent, primary solid",
+        "type": "solid",
+        "background": "#0F52BA",
+        "border": "transparent",
+        "text": "#FFFFFF",
+        "icon": "heart"
+      },
+      "shortlisted": {
+        "description": "Highest intent, deep premium dark blue",
+        "type": "solid_deep",
+        "background": "#041B3B",
+        "border": "transparent",
+        "text": "#FFFFFF",
+        "shadow": "0 4px 12px rgba(4, 27, 59, 0.3)",
+        "icon": "star"
+      },
+      "rejected": {
+        "description": "Dismissed, muted and receding",
+        "type": "ghost",
+        "background": "#F4F7FB",
+        "border": "#E2E8F0",
+        "text": "#8A9CB0",
+        "decoration": "line-through",
+        "icon": "x"
+      }
     }
   },
   "typography": {
-    "font_family": "System",
-    "sizes": {
-      "large_title": { "size": "34px", "weight": "700", "tracking": "-0.04em", "line_height": "41px" },
-      "title1": { "size": "28px", "weight": "700", "tracking": "-0.04em", "line_height": "34px" },
-      "title2": { "size": "22px", "weight": "600", "tracking": "-0.02em", "line_height": "28px" },
-      "headline": { "size": "17px", "weight": "600", "tracking": "-0.01em", "line_height": "22px" },
-      "body": { "size": "17px", "weight": "400", "tracking": "-0.01em", "line_height": "22px" },
-      "subhead": { "size": "15px", "weight": "400", "tracking": "-0.01em", "line_height": "20px" },
-      "footnote": { "size": "13px", "weight": "400", "tracking": "0", "line_height": "18px" },
-      "caption": { "size": "12px", "weight": "500", "tracking": "0", "line_height": "16px" }
+    "font_family": "System, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+    "scale": {
+      "h1_hero": { "size": "34px", "weight": "700", "tracking": "-0.04em", "line_height": "1.2" },
+      "h2_title": { "size": "24px", "weight": "600", "tracking": "-0.03em", "line_height": "1.25" },
+      "h3_card": { "size": "18px", "weight": "600", "tracking": "-0.02em", "line_height": "1.3" },
+      "body_large": { "size": "16px", "weight": "400", "tracking": "-0.01em", "line_height": "1.5" },
+      "body_sub": { "size": "14px", "weight": "400", "tracking": "0", "line_height": "1.4" },
+      "caption": { "size": "12px", "weight": "500", "tracking": "0.02em", "line_height": "1.3", "text_transform": "uppercase" }
     }
   },
-  "spacing": {
-    "grid_base": 8,
-    "scale": {
-      "xs": "4px",
-      "sm": "8px",
-      "md": "16px",
-      "lg": "24px",
-      "xl": "32px",
-      "xxl": "40px"
-    },
-    "layout": {
-      "screen_padding": "16px",
-      "card_padding": "16px",
-      "section_gap": "24px"
+  "spacing_and_layout": {
+    "screen_padding": "20px",
+    "card_padding": "16px",
+    "item_gap": "12px",
+    "section_gap": "32px",
+    "border_radii": {
+      "small": "8px",
+      "medium": "16px",
+      "large": "24px",
+      "pill": "9999px"
     }
+  },
+  "shadows_and_effects": {
+    "card_base": "0 4px 20px rgba(10, 20, 35, 0.04)",
+    "card_hover": "0 8px 30px rgba(10, 20, 35, 0.08)",
+    "floating_button": "0 8px 24px rgba(15, 82, 186, 0.25)",
+    "glass_blur": "blur(20px)"
   },
   "components": {
     "cards": {
-      "property_list_card": {
-        "background": "#FFFFFF",
-        "border_radius": "16px",
-        "shadow": "0px 2px 8px rgba(0, 0, 0, 0.04)",
-        "layout": "Row based. Left: Square thumbnail (80x80, rounded 8px). Right: Stack (Headline for Price, Subhead for address, small badge for status).",
-        "spacing": "padding 16px, gap 12px"
-      },
-      "comparison_card": {
-        "background": "#FFFFFF",
-        "border_radius": "12px",
-        "border": "1px solid rgba(60, 60, 67, 0.1)",
-        "layout": "Vertical stack. Top: Thumbnail. Middle: Price/Name. Bottom: List of attributes (rooms, size, broker)."
-      }
+      "background": "$colors.background.surface",
+      "border_radius": "$spacing_and_layout.border_radii.large",
+      "shadow": "$shadows_and_effects.card_base",
+      "padding": "$spacing_and_layout.card_padding",
+      "border": "1px solid $colors.border.subtle"
     },
     "buttons": {
       "primary": {
-        "background": "#000000",
-        "text_color": "#FFFFFF",
-        "border_radius": "12px",
-        "padding": "16px",
-        "font": "headline"
+        "background": "$colors.accent.primary",
+        "text": "$colors.text.inverse",
+        "border_radius": "$spacing_and_layout.border_radii.pill",
+        "padding": "16px 24px",
+        "font_weight": "600"
       },
-      "secondary": {
-        "background": "#F2F2F7",
-        "text_color": "#007AFF",
-        "border_radius": "12px",
-        "padding": "16px",
-        "font": "headline"
+      "floating_action": {
+        "background": "$colors.accent.deep",
+        "text": "$colors.text.inverse",
+        "shadow": "$shadows_and_effects.floating_button",
+        "border_radius": "$spacing_and_layout.border_radii.pill",
+        "size": "56px"
       }
     },
-    "tab_bar": {
-      "style": "Glassmorphism",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "backdrop_filter": "blur(20px)",
-      "border_top": "0.5px solid rgba(0, 0, 0, 0.1)",
-      "active_tint": "#000000",
-      "inactive_tint": "#999999"
-    },
-    "forms": {
-      "input_field": {
-        "background": "#FFFFFF",
-        "border_radius": "10px",
-        "padding": "14px",
-        "font": "body",
-        "border": "0.5px solid rgba(60, 60, 67, 0.15)",
-        "placeholder_color": "rgba(60, 60, 67, 0.3)"
+    "segmented_control": {
+      "background": "#E2E8F0",
+      "border_radius": "$spacing_and_layout.border_radii.medium",
+      "padding": "4px",
+      "active_indicator": {
+        "background": "$colors.background.surface",
+        "shadow": "0 2px 8px rgba(10, 20, 35, 0.08)",
+        "border_radius": "$spacing_and_layout.border_radii.small",
+        "text": "$colors.text.primary",
+        "font_weight": "600"
       },
-      "picker": {
-        "style": "Native iOS picker or Segmented Control for fast status changing."
-      }
+      "inactive_text": "$colors.text.secondary"
     },
-    "badges": {
-      "border_radius": "6px",
-      "padding": "4px 8px",
-      "font": "caption"
+    "bottom_tab_bar": {
+      "background": "$colors.background.glass",
+      "backdrop_filter": "$shadows_and_effects.glass_blur",
+      "border_top": "1px solid rgba(226, 232, 240, 0.6)",
+      "active_icon": "$colors.accent.primary",
+      "inactive_icon": "$colors.text.tertiary"
     },
-    "comparison_view": {
-      "layout_strategy": "Horizontal scroll view (Carousel) displaying up to 2 items side-by-side on screen. Sticky top row with property image, price, and CTA. Scrollable attribute rows below with clear alternating row backgrounds for scannability.",
-      "attribute_rows": "Address, Rooms/Size, Status, Rating, Broker, View Date."
+    "ios_grouped_form": {
+      "background": "$colors.background.surface",
+      "border_radius": "$spacing_and_layout.border_radii.medium",
+      "overflow": "hidden",
+      "row_border_bottom": "1px solid $colors.border.subtle",
+      "padding_horizontal": "16px",
+      "padding_vertical": "12px"
     }
   },
-  "layout_strategies": {
-    "home_screen": "Top Segmented Control (Buy vs Rent). Scrollable list of Property Cards below.",
-    "detail_screen": "Large Hero Image gallery at top. Scrollable content below. Key info (Price, Address) -> Status Pipeline selector -> Broker Info card -> Rating & Notes.",
-    "add_property_screen": "Grouped table view style form (like iOS Settings). Fields grouped logically: Core Details, Media, Broker Info, Status & Notes."
-  },
-  "media_assets": {
-    "images": [
-      {
-        "url": "https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBsdXh1cnklMjBob3VzZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4MDY2MjI4Mnww&ixlib=rb-4.1.0&q=85",
-        "description": "Modern house with pool (For Buy section mockups)"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1724582586529-62622e50c0b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBtaW5pbWFsJTIwYXBhcnRtZW50JTIwaW50ZXJpb3J8ZW58MHx8fHwxNzgwNjYyMjgyfDA&ixlib=rb-4.1.0&q=85",
-        "description": "Modern minimal apartment (For Rent section mockups)"
-      },
-      {
-        "url": "https://images.pexels.com/photos/8134846/pexels-photo-8134846.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Contemporary residence exterior (Comparison mockup A)"
-      },
-      {
-        "url": "https://images.pexels.com/photos/7195900/pexels-photo-7195900.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Wooden dining table apartment (Comparison mockup B)"
-      }
-    ]
-  },
-  "instructions_to_main_agent": [
-    "Use strictly React Native / Expo best practices for styling (StyleSheet or NativeWind if configured).",
-    "Adhere exclusively to the Light Theme values provided. Do not implement dark mode.",
-    "Ensure all interactive elements (buttons, segmented controls, cards) have an active opacity or touch feedback.",
-    "Implement 'data-testid' on all interactive elements. In React Native, use the `testID` prop (e.g., testID='buy-tab-button', testID='add-property-button').",
-    "For the comparison view, implement a horizontal ScrollView or FlatList where exactly 2 properties fit in the viewport width. Use sticky headers if possible, or keep the scroll simple and aligned.",
-    "Status pipeline changes should be effortless. On the detail screen, represent the status as a horizontal, scrollable tracker or a clear segmented control, not just a standard dropdown.",
-    "Do not use generic placeholder image URLs. Use the provided Unsplash/Pexels images as default fallbacks when a user hasn't added a photo yet.",
-    "Ensure input forms match the iOS grouped table view style (white cards on #F2F2F7 background with rounded corners).",
-    "All tab bars and headers must simulate iOS glassmorphism. Use Expo BlurView (`expo-blur`) where appropriate."
-  ]
+  "design_principles": [
+    "Apple HIG Inspiration: Use generous white space to create a premium, uncrowded feel. Implement grouped table views for forms.",
+    "Monochromatic Contrast: The blue monochrome scale must feel intentional. Pair deep navy text with bright white cards on a pale blue-grey background.",
+    "No Generic Grays: All neutrals MUST be tinted with blue (e.g., #E2E8F0 has a blue undertone). Do not use pure grays or blacks.",
+    "Depth and Glassmorphism: Use heavy translucency and blur (backdrop-blur-xl) for the bottom tab bar and sticky headers to create vertical depth.",
+    "AED Currency: Highlight price values using the primary accent blue, keeping the typography elegant and readable."
+  ],
+  "testing_rules": {
+    "data_testid": "MANDATORY. All interactive and informational elements MUST include a data-testid attribute using kebab-case and role-based naming (e.g., 'paste-link-button', 'status-chip-viewed', 'property-card-title')."
+  }
 }
