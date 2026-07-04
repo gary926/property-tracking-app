@@ -661,7 +661,7 @@ const styles = StyleSheet.create({
   },
   typeToggle: {
     flexDirection: "row",
-    backgroundColor: "#E3E3E8",
+    backgroundColor: "#E2E8F0",
     borderRadius: radius.md,
     padding: 3,
     marginBottom: spacing.lg,
@@ -720,7 +720,7 @@ const styles = StyleSheet.create({
   priceField: { flex: 1 },
   periodToggle: {
     flexDirection: "row",
-    backgroundColor: "#E3E3E8",
+    backgroundColor: "#E2E8F0",
     borderRadius: radius.sm,
     padding: 2,
     marginBottom: spacing.sm + 4,

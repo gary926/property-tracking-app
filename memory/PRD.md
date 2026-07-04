@@ -32,6 +32,12 @@ Mobile app (Expo / React Native + FastAPI + MongoDB) to track and categorize pro
 - Photos via expo-image-picker stored as base64; remote listing photos stored as URLs. Viewing date via @react-native-community/datetimepicker.
 - Currency: AED, formatted manually (consistent on web + native Hermes).
 
+## Design theme
+- Blue-only, modern & classy (Apple HIG). Full palette in `src/theme.ts` + `/app/design_guidelines.json`.
+- App bg #F4F7FB, surfaces #FFFFFF, primary #0F52BA, deep navy #041B3B (FAB + "Shortlisted"), accent-subtle #E8F0FE, azure #2F6FE0 (stars), blue-tinted neutrals. No non-blue accents.
+- Status system differentiated by fill style (outline/soft/solid/deep/ghost), all blue. `STATUS_META` carries bg/text/dot/border/accent.
+- Verified across Home, Detail, Add/Edit, Compare.
+
 ## Status
 - MVP complete & fully tested (13/13 backend, all frontend flows green — iteration_1).
 
