@@ -8,7 +8,7 @@ export function formatPrice(
   const rounded = Math.round(price);
   const withSeparators = rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const formatted = `AED ${withSeparators}`;
-  return period === "month" ? `${formatted}/mo` : formatted;
+  return period === "month" ? `${formatted}/year` : formatted;
 }
 
 export function formatDate(iso: string | null | undefined): string {

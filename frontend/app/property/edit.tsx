@@ -432,7 +432,7 @@ export default function EditProperty() {
                     onPress={() => set("price_period", p)}
                   >
                     <Text style={[styles.periodText, form.price_period === p && styles.periodTextActive]}>
-                      {p === "total" ? "Total" : "/mo"}
+                      {p === "total" ? "Total" : "/year"}
                     </Text>
                   </TouchableOpacity>
                 ))}
